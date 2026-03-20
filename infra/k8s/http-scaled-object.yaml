@@ -1,0 +1,24 @@
+kind: HTTPScaledObject
+apiVersion: http.keda.sh/v1alpha1
+metadata:
+  name: laughing-cartwright-15416bd008-scaler
+  namespace: apps-release
+spec:
+  hosts:
+    - cc1fbde45ead-in-south-01.mayson.dev
+  pathPrefixes:
+    - /ap-northeast-1-backstractelb-522c42-coll-3eef122e5d104b7aa4d898379811a8aa/ # e.g. /infallible-naveen-... laughing-cartwright-15416bd008/
+  scaleTargetRef:
+    name: laughing-cartwright-15416bd008-depl
+    kind: Deployment
+    apiVersion: apps/v1
+    service: laughing-cartwright-15416bd008-srv # e.g. coll-8a2a...-srv
+    port: 80
+  replicas:
+    min: 0
+    max: 10
+  scaledownPeriod: 120 #inseconds
+  scalingMetric:
+    requestRate:
+      targetValue: 100
+      window: 1m
